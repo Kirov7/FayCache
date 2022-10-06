@@ -49,15 +49,15 @@ func (c *httpClient) set(key, value string) {
 }
 
 func (c *httpClient) Run(cmd *Cmd) {
-	if cmd.Name == "get" {
+	if cmd.Name == COMMAND_GET {
 		cmd.Value = c.get(cmd.Key)
 		return
 	}
-	if cmd.Name == "set" {
+	if cmd.Name == COMMAND_SET {
 		c.set(cmd.Key, cmd.Value)
 		return
 	}
-	panic("unknown cmd name " + cmd.Name)
+	panic("unknown cmd name ")
 }
 
 func newHTTPClient(server string) *httpClient {

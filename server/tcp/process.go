@@ -21,13 +21,14 @@ func (s *Server) process(conn net.Conn) {
 			}
 			return
 		}
-		if op == 'S' {
+		switch op {
+		case 'S':
 			e = s.set(conn, r)
-		} else if op == 'G' {
+		case 'G':
 			e = s.get(conn, r)
-		} else if op == 'D' {
+		case 'D':
 			e = s.del(conn, r)
-		} else {
+		default:
 			log.Println("close connection due to invalid operation:", op)
 			return
 		}

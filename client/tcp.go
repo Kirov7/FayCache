@@ -68,22 +68,22 @@ func (c *tcpClient) recvResponse() (string, error) {
 }
 
 func (c *tcpClient) Run(cmd *Cmd) {
-	if cmd.Name == "get" {
+	if cmd.Name == COMMAND_GET {
 		c.sendGet(cmd.Key)
 		cmd.Value, cmd.Error = c.recvResponse()
 		return
 	}
-	if cmd.Name == "set" {
+	if cmd.Name == COMMAND_SET {
 		c.sendSet(cmd.Key, cmd.Value)
 		_, cmd.Error = c.recvResponse()
 		return
 	}
-	if cmd.Name == "del" {
+	if cmd.Name == COMMAND_DEL {
 		c.sendDel(cmd.Key)
 		_, cmd.Error = c.recvResponse()
 		return
 	}
-	panic("unknown cmd name " + cmd.Name)
+	panic("unknown cmd name ")
 }
 
 func (c *tcpClient) PipelinedRun(cmds []*Cmd) {
@@ -91,13 +91,13 @@ func (c *tcpClient) PipelinedRun(cmds []*Cmd) {
 		return
 	}
 	for _, cmd := range cmds {
-		if cmd.Name == "get" {
+		if cmd.Name == COMMAND_GET {
 			c.sendGet(cmd.Key)
 		}
-		if cmd.Name == "set" {
+		if cmd.Name == COMMAND_SET {
 			c.sendSet(cmd.Key, cmd.Value)
 		}
-		if cmd.Name == "del" {
+		if cmd.Name == COMMAND_DEL {
 			c.sendDel(cmd.Key)
 		}
 	}
@@ -106,8 +106,8 @@ func (c *tcpClient) PipelinedRun(cmds []*Cmd) {
 	}
 }
 
-func newTCPClient(server string) *tcpClient {
-	c, e := net.Dial("tcp", server+":12346")
+func newTCPClient(ip string) *tcpClient {
+	c, e := net.Dial("tcp", ip+":12346")
 	if e != nil {
 		panic(e)
 	}
