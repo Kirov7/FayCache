@@ -6,13 +6,13 @@ type Stat struct {
 	ValueSize int64
 }
 
-func (s *Stat) add(k string, v []byte) {
+func (s *Stat) statAdd(k string, v []byte) {
 	s.Count++
 	s.KeySize += int64(len(k))
 	s.ValueSize += int64(len(v))
 }
 
-func (s *Stat) del(k string, v []byte) {
+func (s *Stat) statDel(k string, v []byte) {
 	s.Count--
 	s.KeySize -= int64(len(k))
 	s.ValueSize -= int64(len(v))

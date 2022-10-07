@@ -13,10 +13,10 @@ func (i *inMemoryCache) Set(k string, v []byte) error {
 	defer i.mutex.Unlock()
 	tmp, exist := i.c[k]
 	if exist {
-		i.del(k, tmp)
+		i.statDel(k, tmp)
 	}
 	i.c[k] = v
-	i.add(k, v)
+	i.statAdd(k, v)
 	return nil
 }
 
@@ -32,7 +32,7 @@ func (i *inMemoryCache) Del(k string) error {
 	v, exist := i.c[k]
 	if exist {
 		delete(i.c, k)
-		i.del(k, v)
+		i.statDel(k, v)
 	}
 	return nil
 }

@@ -6,12 +6,16 @@ type STORAGE_TYPE int8
 
 const (
 	STORAGE_INMEMORY STORAGE_TYPE = 0
+	STORAGE_BOLTDB   STORAGE_TYPE = 1
 )
 
 func New(typ STORAGE_TYPE) Cache {
 	var c Cache
-	if typ == STORAGE_INMEMORY {
+	switch typ {
+	case STORAGE_INMEMORY:
 		c = newInMemoryCache()
+	case STORAGE_BOLTDB:
+		c = newBoltCache()
 	}
 	if c == nil {
 		panic("unknown cache type ")
