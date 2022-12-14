@@ -39,6 +39,7 @@ func TestClient(t *testing.T) {
 		// Support batch operation
 		cmds = append(cmds, tempCmd)
 		if i%5 == 0 {
+			// Support for pipeline transmission
 			cacheClient.PipelinedRun(cmds)
 			if tempCmd.Error != nil {
 				fmt.Println("error:", tempCmd.Error)
