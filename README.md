@@ -36,6 +36,7 @@ func TestClient(t *testing.T) {
 			Key:   fmt.Sprintf("hello%d", i),
 			Value: fmt.Sprintf("word%d", i),
 		}
+		// Support batch operation
 		cmds = append(cmds, tempCmd)
 		if i%5 == 0 {
 			cacheClient.PipelinedRun(cmds)
