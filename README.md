@@ -48,6 +48,7 @@ func TestClient(t *testing.T) {
 			cmds = []*client.Cmd{}
 		}
 	}
+}
 ```
 
 test set
