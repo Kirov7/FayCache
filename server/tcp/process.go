@@ -2,6 +2,7 @@ package tcp
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -136,6 +137,12 @@ func (s *Server) readKeyAndValue(r *bufio.Reader) (string, []byte, error) {
 	if e != nil {
 		return "", nil, e
 	}
+
+	addr, ok := s.ShouldProcess(string(k))
+	if !ok {
+		return "", nil, errors.New("redirect " + addr)
+	}
+
 	v := make([]byte, vlen)
 	_, e = io.ReadFull(r, v)
 	if e != nil {
@@ -153,6 +160,10 @@ func (s Server) readKey(r *bufio.Reader) (string, error) {
 	_, e = io.ReadFull(r, k)
 	if e != nil {
 		return "", e
+	}
+	addr, ok := s.ShouldProcess(string(k))
+	if !ok {
+		return "", errors.New("redirect " + addr)
 	}
 	return string(k), nil
 }

@@ -1,16 +1,18 @@
 package tcp
 
 import (
+	cluster "github.com/Kirov7/FayCache/cluster"
 	"github.com/Kirov7/FayCache/server/cache"
 	"net"
 )
 
 type Server struct {
 	cache.Cache
+	cluster.Node
 }
 
 func (s *Server) Listen() {
-	l, e := net.Listen("tcp", ":12346")
+	l, e := net.Listen("tcp", s.Addr()+":12346")
 	if e != nil {
 		panic(e)
 	}
@@ -23,6 +25,6 @@ func (s *Server) Listen() {
 	}
 }
 
-func NewTCPServer(c cache.Cache) *Server {
-	return &Server{c}
+func NewTCPServer(c cache.Cache, n cluster.Node) *Server {
+	return &Server{c, n}
 }
